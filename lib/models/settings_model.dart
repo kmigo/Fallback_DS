@@ -4,7 +4,7 @@ import 'dart:convert';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
-import 'settings.dart';
+import '../config/settings.dart';
 
 // final dsMock ={
 //   "color": {
@@ -149,7 +149,8 @@ import 'settings.dart';
 //       "selected": {
 //         "value": "#25282A0D",
 //         "type": "color"
-//       }
+//       },
+        //       "text": {"value":"#008000","type":"color"}
 //     },
 //     "light": {
 //       "1": {
@@ -175,7 +176,8 @@ import 'settings.dart';
 //       "selected": {
 //         "value": "#FFFFFF33",
 //         "type": "color"
-//       }
+//       },
+//       "text": {"value":"#FFFF00","type":"color"}
 //     },
 //     "error": {
 //       "1": {
@@ -882,6 +884,30 @@ class DSKeyValueModel extends Equatable {
       return Color(int.parse('FF$hexCode', radix: 16));
     }else if(hexCode.length == 8){
       return Color(int.parse(hexCode, radix: 16));
+    }else if(hexCode.length == 3){
+      final r = hexCode.substring(0,1);
+      final g = hexCode.substring(1,2);
+      final b = hexCode.substring(2,3);
+      return Color(int.parse('FF$r$r$g$g$b$b', radix: 16));
+    }else if(hexCode.length == 4){
+      final r = hexCode.substring(0,1);
+      final g = hexCode.substring(1,2);
+      final b = hexCode.substring(2,3);
+      final a = hexCode.substring(3,4);
+      return Color(int.parse('$a$r$r$g$g$b$b', radix: 16));
+    }else if(hexCode.length == 1){
+      final r = hexCode.substring(0,1);
+      return Color(int.parse('FF$r$r$r$r$r$r', radix: 16));
+    }else if(hexCode.length == 2){
+      final r = hexCode.substring(0,1);
+      final a = hexCode.substring(1,2);
+      return Color(int.parse('$a$r$r$r$r$r', radix: 16));
+    }else if(hexCode.length == 5){
+      final r = hexCode.substring(0,1);
+      final g = hexCode.substring(1,2);
+      final b = hexCode.substring(2,3);
+      final a = hexCode.substring(3,5);
+      return Color(int.parse('$a$r$r$g$g$b$b', radix: 16));
     }
     throw Exception('Invalid hexCode');
   }  
@@ -1137,7 +1163,7 @@ class DSColorModel extends Equatable {
   final Map<String,DSKeyValueModel> success;
   final Map<String,DSKeyValueModel> info;
   final Map<String,DSKeyValueModel> background;
-  final Map<String,DSKeyValueModel> text;
+
   const DSColorModel({
     required this.alert,
     required this.neutral,
@@ -1149,11 +1175,10 @@ class DSColorModel extends Equatable {
     required this.success,
     required this.info,
     required this.background,
-    required this.text
   });
 
   @override
-  List<Object?> get props => [alert, neutral, primary, secondary, dark, light, error, success, info, background,text];
+  List<Object?> get props => [alert, neutral, primary, secondary, dark, light, error, success, info, background];
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
@@ -1166,7 +1191,7 @@ class DSColorModel extends Equatable {
       'error': error.map((key, value) => MapEntry(key, value.toMap())),
       'success': success.map((key, value) => MapEntry(key, value.toMap())),
       'info': info.map((key, value) => MapEntry(key, value.toMap())),
-      'text': text.map((key, value) => MapEntry(key, value.toMap())),
+
       'background': background.map((key, value) => MapEntry(key, value.toMap())),
     };
   }
@@ -1182,7 +1207,6 @@ class DSColorModel extends Equatable {
       error: (map['error'] as Map).map((key, value) => MapEntry(key, DSKeyValueModel.fromMap(value as Map<String, dynamic>))),
       success:(map['success'] as Map).map((key, value) => MapEntry(key, DSKeyValueModel.fromMap(value as Map<String, dynamic>))),
       info: (map['info'] as Map).map((key, value) => MapEntry(key, DSKeyValueModel.fromMap(value as Map<String, dynamic>))),
-      text:(map['text'] as Map).map((key, value) => MapEntry(key, DSKeyValueModel.fromMap(value as Map<String, dynamic>))),
       background: (map['background'] as Map).map((key, value) => MapEntry(key, DSKeyValueModel.fromMap(value as Map<String, dynamic>))),
     );
   }

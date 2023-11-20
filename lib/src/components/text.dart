@@ -7,7 +7,7 @@ class FallbackDSRenameText extends StatelessWidget {
   final String text;
   final double? _fontSize;
   final FontWeight? fontWeight;
-  const FallbackDSRenameText(this.text,{super.key,   this.color,this.fontWeight}):_fontSize = null;
+  const FallbackDSRenameText({super.key,  required this.text, this.color,this.fontWeight}):_fontSize = null;
   const FallbackDSRenameText.body1(this.text,{super.key,this.color,this.fontWeight}):_fontSize =12;
 
   @override
@@ -24,8 +24,8 @@ class FallbackDSRenameText extends StatelessWidget {
           // caso não haja nenhum style ele seta um novo style passando as cores temas default
           style ??= TextStyle(
             color: (snapTheme == ThemeEnum.dark
-                ? ThemeModel.instance.themeModal.color.text['dark']!.color
-                : ThemeModel.instance.themeModal.color.text['light']!.color),
+                ? ThemeModel.instance.themeModal.color.secondary['1']!.color
+                : ThemeModel.instance.themeModal.color.secondary['5']!.color),
           );
 
           // se algum parametro da classe dentro lista for diferente de nulo ele cria uma copia passando todos os parametros de classe

@@ -1,4 +1,4 @@
-import 'package:fallback_ds/config/settings_model.dart';
+import 'package:fallback_ds/models/settings_model.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../config.dart';
